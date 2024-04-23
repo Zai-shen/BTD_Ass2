@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "m5stckC-Plus",
-    "project_version":    "1",
+    "project_version":    "a0a61dc-dirty",
     "project_path":       "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen",
     "idf_path":           "C:/Uni/Master/S2_SS24/BTD_VU/ESP32_VSC_Project/v5.2.1/esp-idf",
     "build_dir":          "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build",
@@ -835,7 +835,7 @@
             "managed_reqs": [],
             "managed_priv_reqs": [],
             "file": "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/main/libmain.a",
-            "sources": [ "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/main.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/decode_jpeg.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/decode_png.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/pngle.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/axp192.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/st7789.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/mpu6866controller.c" ],
+            "sources": [ "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/main.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/decode_jpeg.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/decode_png.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/pngle.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/axp192.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/st7789.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/mpu6866controller.c", "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/main/display.c" ],
             "include_dirs": [ "." ]
         },
         "mbedtls": {

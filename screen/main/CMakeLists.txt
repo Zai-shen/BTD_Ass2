@@ -11,6 +11,7 @@ set(srcs "main.c"
     "axp192.c"
     "st7789.c"
     "mpu6866controller.c"
+    "display.c"
     )
 
 idf_component_register(SRCS ${srcs} INCLUDE_DIRS "." REQUIRES ${requires})
