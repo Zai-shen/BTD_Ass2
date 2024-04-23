@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "m5stckC-Plus",
-    "project_version":    "f379ed5-dirty",
+    "project_version":    "eac8fbd-dirty",
     "project_path":       "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen",
     "idf_path":           "C:/Uni/Master/S2_SS24/BTD_VU/ESP32_VSC_Project/v5.2.1/esp-idf",
     "build_dir":          "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build",

@@ -1147,7 +1147,7 @@ void init_display(void){
 	ESP_ERROR_CHECK(mountSPIFFS("storage2", "/images"));
 	printDirectory("/images");
 
-	i2c_master_init();
+	// i2c_master_init();
 
 	// Start Task
 	tft(NULL);
