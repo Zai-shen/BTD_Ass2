@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "st7789.h": "c",
+        "decode_jpeg.h": "c",
+        "decode_png.h": "c"
+    },
+    "idf.adapterTargetName": "esp32",
+    "idf.openOcdConfigs": [
+        "board/esp32-bridge.cfg"
+    ],
+    "cmake.generator": "Visual Studio 16 2019",
+    "idf.portWin": "COM9"
+}

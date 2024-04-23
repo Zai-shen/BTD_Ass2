@@ -1,0 +1,13 @@
+{
+    "idf.adapterTargetName": "esp32",
+    "idf.openOcdConfigs": [
+        "board/esp32-bridge.cfg"
+    ],
+    "files.associations": {
+        "freertos.h": "c",
+        "esp_log.h": "c"
+    },
+    "idf.portWin": "COM9",
+    "idf.flashBaudRate": "115200",
+    "idf.flashType": "UART"
+}
