@@ -1,7 +1,7 @@
 #include "mpu6866controller.h"
 #include "esp_log.h"
 
-#define TAG "mpu6866controller"
+#define TAG "MPU6866CONTROLLER"
 
 void custom_function(){
     ESP_LOGI(TAG, "Hello from mpu");

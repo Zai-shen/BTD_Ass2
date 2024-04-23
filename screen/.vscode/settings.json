@@ -6,7 +6,8 @@
     "files.associations": {
         "freertos.h": "c",
         "esp_log.h": "c",
-        "decode_png.h": "c"
+        "decode_png.h": "c",
+        "i2c.h": "c"
     },
     "idf.portWin": "COM9",
     "idf.flashBaudRate": "115200",

@@ -1,5 +1,7 @@
 #include "esp_log.h"
+#include "mpu6866controller.h"
 #include "display.h"
+
 
 static const char *TAG = "MAIN";
 
@@ -8,6 +10,19 @@ void app_start(void *pvParameters)
     // ESP_ERROR_CHECK(i2c_master_init());
 
 	init_display();
+	ESP_LOGI(TAG, "Starting Display test_display()");
+	// test_display("test v3");
+	char *messages[] = {
+        "Hello",
+        "World",
+        "How are you?"
+    };
+	while (1)
+	{
+		display_textarea(messages, 3);
+		vTaskDelay(400);
+	}
+	
 
     // write_screen("initializing", "connecting to Wifi");
 

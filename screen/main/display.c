@@ -20,10 +20,7 @@
 #include "decode_png.h"
 #include "pngle.h"
 
-#include "mpu6866controller.h"
-
-#define INTERVAL 400
-#define WAIT vTaskDelay(INTERVAL)
+#include "display.h"
 
 // M5stickC-Plus stuff
 #if CONFIG_M5STICK_C_PLUS
@@ -55,11 +52,13 @@
 #define CONFIG_OFFSETY 40
 #endif
 
+#define INTERVAL 400
+#define WAIT vTaskDelay(INTERVAL)
+
 static const char *TAG = "DISPLAY";
 static TFT_t dev_tft;
-
-/// PROTOTYPES 
-TickType_t Ass2(TFT_t *dev, FontxFile *fx, int width, int height);
+static FontxFile fx24G[2];
+static int textVOffset = 0;
 
 TickType_t FillTest(TFT_t * dev, int width, int height) {
 	TickType_t startTick, endTick, diffTick;
@@ -848,7 +847,7 @@ void tft(void *pvParameters)
 
 	// set font file
 	FontxFile fx16G[2];
-	FontxFile fx24G[2];
+	// FontxFile fx24G[2];
 	FontxFile fx32G[2];
 	InitFontx(fx16G,"/fonts/ILGH16XB.FNT",""); // 8x16Dot Gothic
 	InitFontx(fx24G,"/fonts/ILGH24XB.FNT",""); // 12x24Dot Gothic
@@ -868,11 +867,6 @@ void tft(void *pvParameters)
 	ESP_LOGI(TAG, "Enable Display Inversion");
 	lcdInversionOn(&dev);
 #endif
-
-/// INVOKE our methods
-ESP_LOGI(TAG, "Starting Ass2()");
-Ass2(&dev_tft, fx24G, CONFIG_WIDTH, CONFIG_HEIGHT);
-///
 
 #if 0
 	while (1) {
@@ -1013,11 +1007,13 @@ Ass2(&dev_tft, fx24G, CONFIG_WIDTH, CONFIG_HEIGHT);
 	} // end while
 #endif
 
+#if 0
 	// never reach
 	while (1) {
 		ESP_LOGI(TAG, "Just keeping the device alive...");
 		vTaskDelay(2000 / portTICK_PERIOD_MS);
 	}
+#endif
 }
 
 esp_err_t mountSPIFFS(char * partition_label, char * mount_point) {
@@ -1087,10 +1083,13 @@ static void printDirectory(char * path) {
 	closedir(dir);
 }
 
-
-TickType_t LCDDrawStringVTopHCenter(TFT_t * dev, FontxFile *fx, int width, int height, int offset, char text[]) {
+TickType_t display_string_tc(char text[]) {
 	TickType_t startTick, endTick, diffTick;
 	startTick = xTaskGetTickCount();
+
+    int width = CONFIG_WIDTH;
+    int height = CONFIG_HEIGHT;
+    FontxFile *fx = fx24G;
 
 	uint8_t buffer[FontxGlyphBufSize];
 	uint8_t fontWidth;
@@ -1103,8 +1102,9 @@ TickType_t LCDDrawStringVTopHCenter(TFT_t * dev, FontxFile *fx, int width, int h
 
 	color = RED;
 	strcpy((char *)ascii, text);
-	lcdSetFontDirection(dev, 1);
-	lcdDrawString(dev, fx, width-(fontHeight * (1 + offset)), centerY, ascii, color);
+	lcdSetFontDirection(&dev_tft, 1);
+	lcdDrawString(&dev_tft, fx, width-(fontHeight * (1 + textVOffset)), centerY, ascii, color);
+    textVOffset++;
 
 	// lcdSetFontFill(dev, GREEN);
 	// lcdSetFontUnderLine(dev, RED);
@@ -1114,9 +1114,29 @@ TickType_t LCDDrawStringVTopHCenter(TFT_t * dev, FontxFile *fx, int width, int h
 
 	endTick = xTaskGetTickCount();
 	diffTick = endTick - startTick;
-	ESP_LOGI(__FUNCTION__, "elapsed time[ms]:%"PRIu32,diffTick*portTICK_PERIOD_MS);
+	// ESP_LOGI(__FUNCTION__, "elapsed time[ms]:%"PRIu32,diffTick*portTICK_PERIOD_MS);
 	return diffTick;
 }
+
+void clear_display(void){
+    // ESP_LOGI(TAG, "Clearing display");
+    lcdFillScreen(&dev_tft, BLACK);
+    textVOffset = 0;
+}
+
+TickType_t display_textarea(char *strings[], int num_strings) {
+    clear_display();
+    TickType_t total_elapsed_time = 0;
+
+    for (int i = 0; i < num_strings; i++) {
+        TickType_t elapsed_time = display_string_tc(strings[i]);
+        total_elapsed_time += elapsed_time;
+    }
+
+	ESP_LOGI(__FUNCTION__, "elapsed time[ms]:%"PRIu32, total_elapsed_time);
+    return total_elapsed_time;
+}
+
 
 
 void init_display(void){
@@ -1133,14 +1153,16 @@ void init_display(void){
 	tft(NULL);
 }
 
-TickType_t Ass2(TFT_t * dev, FontxFile *fx, int width, int height) {
+TickType_t test_display(char text[]) {
 	TickType_t startTick, endTick, diffTick;
 	startTick = xTaskGetTickCount();
 
 	while (1)
 	{
-		lcdFillScreen(dev, BLACK);
-		LCDDrawStringVTopHCenter(dev, fx, width, height, 0, "Version w main!");
+        clear_display();
+		display_string_tc(text);
+		display_string_tc(text);
+		display_string_tc(text);
 		WAIT;
 	}
 
