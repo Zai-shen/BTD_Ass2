@@ -1124,19 +1124,58 @@ void clear_display(void){
     textVOffset = 0;
 }
 
-TickType_t display_textarea(char *strings[], int num_strings) {
+TickType_t display_textline(char text[]) {
+	TickType_t startTick, endTick, diffTick;
+	startTick = xTaskGetTickCount();
+
     clear_display();
+    display_string_tc(text);
+
+	endTick = xTaskGetTickCount();
+	diffTick = endTick - startTick;
+	// ESP_LOGI(__FUNCTION__, "elapsed time[ms]:%"PRIu32,diffTick*portTICK_PERIOD_MS);
+	return diffTick;
+}
+
+TickType_t display_textarea(char *strings[], int num_strings) {
     TickType_t total_elapsed_time = 0;
+    clear_display();
 
     for (int i = 0; i < num_strings; i++) {
         TickType_t elapsed_time = display_string_tc(strings[i]);
         total_elapsed_time += elapsed_time;
     }
 
-	ESP_LOGI(__FUNCTION__, "elapsed time[ms]:%"PRIu32, total_elapsed_time);
+	// ESP_LOGI(__FUNCTION__, "elapsed time[ms]:%"PRIu32, total_elapsed_time);
     return total_elapsed_time;
 }
 
+void floats_to_strings(float floats[], int num_floats, char *strings[]) {
+    for (int i = 0; i < num_floats; i++) {
+        strings[i] = malloc(20); // Adjust size as needed
+
+        snprintf(strings[i], 20, "%.2f", floats[i]); // Adjust precision as needed
+    }
+}
+
+TickType_t display_floatarea(float floats[], int num_floats) {
+    TickType_t total_elapsed_time = 0;
+    clear_display();
+
+    char *strings[num_floats];
+    floats_to_strings(floats, num_floats, strings);
+
+    for (int i = 0; i < num_floats; i++) {
+        TickType_t elapsed_time = display_string_tc(strings[i]);
+        total_elapsed_time += elapsed_time;
+
+        // Free memory allocated for each string
+        free(strings[i]);
+    }
+
+    // ESP_LOGI(__FUNCTION__, "elapsed time[ms]:%"PRIu32, total_elapsed_time);
+    return total_elapsed_time;
+}
 
 
 void init_display(void){

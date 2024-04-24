@@ -1,9 +1,34 @@
 #include "esp_log.h"
 #include "mpu6866controller.h"
 #include "display.h"
+#include "time.h"
 
+#define WAIT vTaskDelay(300 / portTICK_PERIOD_MS)
+#define WAITLONG vTaskDelay(5000 / portTICK_PERIOD_MS)
+
+#define TOTALDURATION 3000  // total time in ms
+#define DELAYDURATION 100   // delay per loop iteration in ms
+#define SAMPLES (TOTALDURATION / DELAYDURATION)  // calculating number of samples
 
 static const char *TAG = "MAIN";
+
+char* get_current_time() {
+    // Get the current time in seconds since the Unix epoch
+    time_t now;
+    time(&now);
+
+    // Convert the time to a more readable format
+    struct tm timeinfo;
+    localtime_r(&now, &timeinfo);
+
+    // Allocate memory for the string
+	char* time_string = (char*)malloc(10); // HH:MM:SS + null terminator
+
+    // Format the time into a string
+    strftime(time_string, 9, "%H:%M:%S", &timeinfo);
+
+    return time_string;
+}
 
 void app_start(void *pvParameters)
 {
@@ -11,34 +36,59 @@ void app_start(void *pvParameters)
     ESP_ERROR_CHECK(i2c_master_init_MPU());
 	ESP_LOGI(TAG, "init_display()");
 	init_display();
-	ESP_LOGI(TAG, "Starting Display test_display()");
+
+	ESP_LOGI(TAG, "display_textarea()");
 	char *messages[] = {
-        "This",
-        "is",
-        "SPARTA"
+        "Display",
+        "initialized",
+        "successfully"
     };
 	display_textarea(messages, 3);
+	
+	WAIT;
+
+	ESP_LOGI(TAG, "init_mpu6886()");
+    display_textline("Init MPU");
+	init_mpu6886();
+
+	WAIT;
+
+    float ax, ay, az;
+	int num_axis = 3;
+    float accelData[SAMPLES][num_axis];  
+
+	while (1)
+	{
+		ESP_LOGI(TAG, "Started recording chunk... %s", get_current_time());
+		display_textline("Recording chunk...");
+
+		for (int i = 0; i < SAMPLES; i++)
+		{
+			getAccelData(&ax, &ay, &az);
+			accelData[i][0] = ax;
+			accelData[i][1] = ay;
+			accelData[i][2] = az;
+			ESP_LOGI(TAG, "Accel ADC: ax=%f, ay=%f, az=%f", ax, ay, az);
+			float axis[] = {ax,ay,az};
+			display_floatarea(axis, 3);
+
+			vTaskDelay(DELAYDURATION / portTICK_PERIOD_MS);
+		}
+		ESP_LOGI(TAG, "Stopped recording chunk... %s", get_current_time());
+		WAITLONG;
+	}
+	
+
 
 	while (1)
 	{
 		ESP_LOGI(TAG, "idling...");
-		vTaskDelay(400);
+		WAIT;
 	}
-	
-    // init_mpu6886();
 }
 
 void app_main(void)
 {
-	// init accelerometer
-	// ESP_ERROR_CHECK(i2c_master_init_MPU());
-	// ESP_LOGI(TAG, "I2C initialized successfully");
-
-	// init_mpu6886();
-
-	// int16_t ax, ay, az;
-	// getAccelAdc(&ax, &ay, &az);
-
 	xTaskCreate(app_start, "app_start", 32768, NULL, 10, NULL);
     vTaskDelete(NULL);
 }
