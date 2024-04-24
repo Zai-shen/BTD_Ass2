@@ -1,0 +1,7 @@
+-- ccache will be used for faster recompilation
+-- Building ESP-IDF components for target esp32
+-- Configuring incomplete, errors occurred!
+See also "C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/CMakeFiles/CMakeOutput.log".
+[0/1] Re-running CMake...
+FAILED: build.ninja 
+C:\Users\MiranJank\.espressif\tools\cmake\3.24.0\bin\cmake.exe --regenerate-during-build -SC:\Uni\Master\S2_SS24\BTD_VU\BTD_Ass2\screen -BC:\Uni\Master\S2_SS24\BTD_VU\BTD_Ass2\screen\build

@@ -7,7 +7,9 @@
         "freertos.h": "c",
         "esp_log.h": "c",
         "decode_png.h": "c",
-        "i2c.h": "c"
+        "i2c.h": "c",
+        "sgm2578.h": "c",
+        "addr_from_stdin.h": "c"
     },
     "idf.portWin": "COM9",
     "idf.flashBaudRate": "115200",

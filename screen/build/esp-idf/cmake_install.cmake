@@ -414,6 +414,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/protocol_examples_common/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/main/cmake_install.cmake")
 endif()
 

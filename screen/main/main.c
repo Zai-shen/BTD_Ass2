@@ -2,6 +2,11 @@
 #include "mpu6866controller.h"
 #include "display.h"
 #include "time.h"
+#include "nvs_flash.h"
+#include "esp_netif.h"
+#include "protocol_examples_common.h"
+#include "esp_event.h"
+#include "tcp_client_v4.h"
 
 #define WAIT vTaskDelay(300 / portTICK_PERIOD_MS)
 #define WAITLONG vTaskDelay(5000 / portTICK_PERIOD_MS)
@@ -40,11 +45,29 @@ void app_start(void *pvParameters)
 	ESP_LOGI(TAG, "display_textarea()");
 	char *messages[] = {
         "Display",
-        "initialized",
-        "successfully"
+        "init",
+        "success"
     };
 	display_textarea(messages, 3);
 	
+	WAIT;
+
+	ESP_ERROR_CHECK(nvs_flash_init());
+    ESP_ERROR_CHECK(esp_netif_init());
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+    ESP_ERROR_CHECK(example_connect());
+
+	ESP_LOGI(TAG, "NO TCP errors");
+	char *messages2[] = {
+        "NO",
+        "TCP",
+        "errors"
+    };
+	display_textarea(messages2, 3);
+
+	ESP_LOGI(TAG, "Trying to connect to our TCP");
+	tcp_client();
+
 	WAIT;
 
 	ESP_LOGI(TAG, "init_mpu6886()");
@@ -59,7 +82,7 @@ void app_start(void *pvParameters)
 
 	while (1)
 	{
-		ESP_LOGI(TAG, "Started recording chunk... %s", get_current_time());
+		ESP_LOGI(TAG, "Started recording chunk.. %s", get_current_time());
 		display_textline("Recording chunk...");
 
 		for (int i = 0; i < SAMPLES; i++)

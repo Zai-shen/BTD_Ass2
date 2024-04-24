@@ -634,6 +634,13 @@ C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/wifi_provisioning/CMa
 C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/wifi_provisioning/CMakeFiles/install.dir
 C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/wifi_provisioning/CMakeFiles/install/local.dir
 C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/wifi_provisioning/CMakeFiles/install/strip.dir
+C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/protocol_examples_common/CMakeFiles/__idf_protocol_examples_common.dir
+C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/protocol_examples_common/CMakeFiles/edit_cache.dir
+C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/protocol_examples_common/CMakeFiles/rebuild_cache.dir
+C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/protocol_examples_common/CMakeFiles/list_install_components.dir
+C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/protocol_examples_common/CMakeFiles/install.dir
+C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/protocol_examples_common/CMakeFiles/install/local.dir
+C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/protocol_examples_common/CMakeFiles/install/strip.dir
 C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/main/CMakeFiles/__idf_main.dir
 C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/main/CMakeFiles/edit_cache.dir
 C:/Uni/Master/S2_SS24/BTD_VU/BTD_Ass2/screen/build/esp-idf/main/CMakeFiles/rebuild_cache.dir
