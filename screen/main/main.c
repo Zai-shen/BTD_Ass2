@@ -11,25 +11,21 @@
 #define WAIT vTaskDelay(300 / portTICK_PERIOD_MS)
 #define WAITLONG vTaskDelay(5000 / portTICK_PERIOD_MS)
 
-#define TOTALDURATION 3000  // total time in ms
-#define DELAYDURATION 100   // delay per loop iteration in ms
-#define SAMPLES (TOTALDURATION / DELAYDURATION)  // calculating number of samples
+#define TOTALDURATION 3000  // total time
+#define DELAYDURATION 100   // delay per loop iter
+#define SAMPLES (TOTALDURATION / DELAYDURATION)  // calc number of samples
 
 static const char *TAG = "MAIN";
 
+// Get the current time in seconds since the Unix epoch
 char* get_current_time() {
-    // Get the current time in seconds since the Unix epoch
     time_t now;
     time(&now);
 
-    // Convert the time to a more readable format
     struct tm timeinfo;
     localtime_r(&now, &timeinfo);
 
-    // Allocate memory for the string
 	char* time_string = (char*)malloc(10); // HH:MM:SS + null terminator
-
-    // Format the time into a string
     strftime(time_string, 9, "%H:%M:%S", &timeinfo);
 
     return time_string;
@@ -37,6 +33,7 @@ char* get_current_time() {
 
 void app_start(void *pvParameters)
 {
+	// I2C & DISPLAY INIT
 	ESP_LOGI(TAG, "i2c_master_init_MPU()");
     ESP_ERROR_CHECK(i2c_master_init_MPU());
 	ESP_LOGI(TAG, "init_display()");
@@ -52,6 +49,7 @@ void app_start(void *pvParameters)
 	
 	WAIT;
 
+	// TCP INIT
 	ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
@@ -65,11 +63,21 @@ void app_start(void *pvParameters)
     };
 	display_textarea(messages2, 3);
 
-	ESP_LOGI(TAG, "Trying to connect to our TCP");
-	tcp_client();
+	ESP_LOGI(TAG, "Trying to connect to our TCP: %s", CONFIG_EXAMPLE_WIFI_SSID);
+	char *messages3[] = {
+        "Connecting",
+        "to",
+        CONFIG_EXAMPLE_WIFI_SSID
+    };
+	display_textarea(messages3, 3);
+	tcp_connect_ver4();
+
+	display_textline("Send + Recv");
+	send_and_receive();
 
 	WAIT;
 
+	// ACCEL INIT
 	ESP_LOGI(TAG, "init_mpu6886()");
     display_textline("Init MPU");
 	init_mpu6886();
